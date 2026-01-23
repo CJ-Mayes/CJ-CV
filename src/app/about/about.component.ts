@@ -167,7 +167,16 @@ export class AboutComponent implements OnInit, AfterViewInit {
     this.handleHeaderMouseDown(2, event); 
   }
   
-  // Internal unified handler
+  // Helper to get coordinates from mouse or touch event
+  private getEventCoordinates(event: MouseEvent | TouchEvent): { x: number; y: number } {
+    if (event instanceof TouchEvent) {
+      const touch = event.touches[0] || event.changedTouches[0];
+      return { x: touch.clientX, y: touch.clientY };
+    }
+    return { x: event.clientX, y: event.clientY };
+  }
+
+  // Internal unified handler for mouse events
   private handleHeaderMouseDown(windowIndex: 0 | 1 | 2, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.closest('.window-controls') || target.closest('.window-actions')) {
@@ -184,9 +193,40 @@ export class AboutComponent implements OnInit, AfterViewInit {
       const containerRect = columnContainer?.getBoundingClientRect();
       
       if (containerRect) {
+        const coords = this.getEventCoordinates(event);
         this.windows[windowIndex].dragOffset = {
-          x: event.clientX - containerRect.left - this.windows[windowIndex].position.x,
-          y: event.clientY - containerRect.top - this.windows[windowIndex].position.y
+          x: coords.x - containerRect.left - this.windows[windowIndex].position.x,
+          y: coords.y - containerRect.top - this.windows[windowIndex].position.y
+        };
+      }
+    }
+    
+    event.preventDefault();
+  }
+
+  // Touch event handlers
+  public onHeaderTouchStart(windowIndex: 0 | 1 | 2, event: TouchEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.closest('.window-controls') || target.closest('.window-actions')) {
+      return;
+    }
+
+    // Convert touch event to work with bringToFront (which expects MouseEvent)
+    const fakeMouseEvent = { target: event.target } as MouseEvent;
+    this.bringToFront(windowIndex + 1 as 1 | 2 | 3, fakeMouseEvent);
+    
+    this.windows[windowIndex].isDragging = true;
+    const windowElement = this.getWindowElement(windowIndex);
+    
+    if (windowElement) {
+      const columnContainer = windowElement.parentElement;
+      const containerRect = columnContainer?.getBoundingClientRect();
+      
+      if (containerRect) {
+        const coords = this.getEventCoordinates(event);
+        this.windows[windowIndex].dragOffset = {
+          x: coords.x - containerRect.left - this.windows[windowIndex].position.x,
+          y: coords.y - containerRect.top - this.windows[windowIndex].position.y
         };
       }
     }
@@ -203,7 +243,17 @@ export class AboutComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private handleWindowDrag(windowIndex: number, event: MouseEvent): void {
+  @HostListener('document:touchmove', ['$event'])
+  onTouchMove(event: TouchEvent): void {
+    for (let i = 0; i < this.windows.length; i++) {
+      if (this.windows[i].isDragging) {
+        this.handleWindowDrag(i, event);
+        event.preventDefault(); // Prevent scrolling while dragging
+      }
+    }
+  }
+
+  private handleWindowDrag(windowIndex: number, event: MouseEvent | TouchEvent): void {
     const windowElement = this.getWindowElement(windowIndex);
     if (!windowElement) return;
 
@@ -217,8 +267,9 @@ export class AboutComponent implements OnInit, AfterViewInit {
     const actualWidth = windowRect.width / scale;
     const actualHeight = windowRect.height / scale;
     
-    let newX = event.clientX - containerRect.left - this.windows[windowIndex].dragOffset.x;
-    let newY = event.clientY - containerRect.top - this.windows[windowIndex].dragOffset.y;
+    const coords = this.getEventCoordinates(event);
+    let newX = coords.x - containerRect.left - this.windows[windowIndex].dragOffset.x;
+    let newY = coords.y - containerRect.top - this.windows[windowIndex].dragOffset.y;
     
     const maxY = containerRect.height - actualHeight * scale;
     const minX = -actualWidth * scale * WINDOW_CONSTANTS.DRAG.HORIZONTAL_OVERFLOW;
@@ -237,13 +288,18 @@ export class AboutComponent implements OnInit, AfterViewInit {
     this.windows.forEach(window => window.isDragging = false);
   }
 
+  @HostListener('document:touchend', ['$event'])
+  onTouchEnd(event: TouchEvent): void {
+    this.windows.forEach(window => window.isDragging = false);
+  }
+
   private getWindowElement(windowIndex: number): HTMLElement | null {
     const refs = [this.cursorWindowRef, this.cursorWindow2Ref, this.cursorWindow3Ref];
     return refs[windowIndex]?.nativeElement || null;
   }
 
   // Bring window to foreground
-  public bringToFront(windowNumber: 1 | 2 | 3, event?: MouseEvent): void {
+  public bringToFront(windowNumber: 1 | 2 | 3, event?: MouseEvent | TouchEvent): void {
     const windowIndex = windowNumber - 1;
     
     if (this.windows[windowIndex].isDragging) return;

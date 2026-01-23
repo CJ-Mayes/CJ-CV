@@ -970,7 +970,31 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .cursor-window {
-    margin: 1rem;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  .about-section .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .about-section .col-lg-8 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .about-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .ide-sidebar {
@@ -1003,8 +1027,20 @@
   }
 
   .sidebar-item {
-    justify-content: flex-start !important;
+    justify-content: center !important;
     padding-left: calc(2px + 12px) !important;
+    text-align: center !important;
+  }
+
+  /* Center sidebar items on mobile */
+  .sidebar-items {
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Hide Website-Tutorials and Life Moments windows on mobile */
+  .cursor-window-small {
+    display: none !important;
   }
 
   .sidebar-item-content {
@@ -1015,6 +1051,151 @@
 
   .ide-content {
     flex-direction: column;
+  }
+
+  /* Hide sidebar on mobile - show content directly */
+  .ide-sidebar {
+    display: none !important;
+  }
+
+  .ide-editor {
+    width: 100% !important;
+    margin-left: 0 !important;
+    flex: 1 !important;
+  }
+
+  .ide-content {
+    width: 100% !important;
+  }
+
+  /* Remove window container on mobile - display components directly */
+  .cursor-window {
+    position: relative !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  .window-header {
+    display: none !important;
+  }
+
+  .ide-content {
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  .ide-editor {
+    overflow: visible !important;
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .editor-content {
+    overflow: visible !important;
+    position: relative !important;
+    height: auto !important;
+    max-height: none !important;
+    background: transparent !important;
+  }
+
+  /* Show all content panels stacked vertically on mobile - outside container */
+  .content-panel {
+    display: block !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    overflow: visible !important;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--sidebar-border);
+    width: 100% !important;
+  }
+
+  .content-panel:last-child {
+    border-bottom: none;
+  }
+
+  .panel-content {
+    overflow: visible !important;
+    min-height: auto !important;
+    padding: 1rem !important;
+    width: 100% !important;
+  }
+
+  /* Remove container constraints */
+  .about-section .col-lg-8 {
+    position: static !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .about-section .row {
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Remove all padding from global Bootstrap classes within about section */
+  .about-section .container,
+  .about-section .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Remove padding from all column classes - this overrides Bootstrap's 15px padding */
+  .about-section [class*="col-"],
+  .about-section .col,
+  .about-section .col-lg-8,
+  .about-section .col-lg-4 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Remove padding from nested content containers */
+  .about-section .ide-content,
+  .about-section .ide-editor,
+  .about-section .editor-content,
+  .about-section .cursor-window {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* Remove padding from panel content and all nested elements */
+  .about-section .panel-content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Remove padding from all direct children of panel-content */
+  .about-section .panel-content > * {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* Disable window dragging on mobile - allow scrolling instead */
+  .cursor-window {
+    touch-action: pan-y !important;
+    position: relative !important;
+  }
+
+  .window-header {
+    touch-action: none !important;
+  }
+
+  /* Ensure smooth scrolling on iOS */
+  .editor-content {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 }.about-img img{max-width:200px;border:5px solid #fff;box-shadow:1px 9px 31px -15px #000}small{font-size:80%;font-weight:400}.progress{display:-ms-flexbox;display:flex;font-size:.75rem;border-radius:1rem;height:6px;background:#242a35;overflow:visible}@keyframes animate-positive{0%{width:0}}.progress-bar{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-pack:center;justify-content:center;color:#fff;text-align:center;white-space:nowrap;background-color:#067191;transition:width .6s ease;position:relative;border-radius:1rem;-moz-animation:animate-positive 2s;-webkit-animation:animate-positive 2s;animation:animate-positive 2s}.progress .progress-value{display:block;position:absolute;top:-30px;right:-25px}.timeline{position:relative;width:75%}.timeline-box{padding:5px;width:40%;min-height:150px;position:relative;left:5%;text-align:right;border-radius:1rem}.timeline-box::after{content:"";position:absolute;width:15px;height:15px;background-color:#242a35;top:25%;border-radius:50%}.timeline-box:nth-child(2n){left:55%}.timeline-box:nth-child(2n+1)::after{right:-15%}.timeline-box:nth-child(2n)::after{left:-15%}.timeline-container{padding:8px;border-radius:1rem}#timeline-divider{position:absolute;width:0;top:5%;left:calc(50% - 1px);border:1px dashed #000;height:90%}#timeline-divider .timeline-traveller{position:sticky;top:135px}#timeline-divider i{transform:rotate(90deg);margin-top:-35px;display:block;color:#000}.experience-designation{font-size:1.2rem;color:#242a35}.experience-company-name{margin:5px 0 0;color:#067191;font-weight:400;font-size:1rem}.experience-duration{font-weight:100;color:grey;font-size:1rem}.experience-description{font-size:14px;padding:2px;color:grey;line-height:20px}.education-section{display:flex;flex-direction:column;align-items:center;padding-bottom:20px}@media (min-width:200px) and (max-width:768px){#about{background-size:55%}.experience-designation{font-size:.8rem}.experience-company-name{font-size:.6rem}.experience-duration{font-size:10px}.experience-description{font-size:10px}.timeline{width:100%}.timeline-box:nth-child(2n+1)::after{right:-18%}.timeline-box:nth-child(2n)::after{left:-17%}}
 

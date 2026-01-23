@@ -17,9 +17,9 @@
       <!-- Right Side Container -->
       <div class="col-lg-8">
         <!-- Cursor IDE Window Container -->
-        <div class="cursor-window scroll-animated" #cursorWindow [style.z-index]="windowZIndex" [style.transform]="window1Transform" [style.opacity]="windowScrollTransform.opacity" [style.--bg-opacity]="window1BgOpacity" (mousedown)="bringToFront(1, $event)">
+        <div class="cursor-window scroll-animated" #cursorWindow [style.z-index]="windowZIndex" [style.transform]="window1Transform" [style.opacity]="windowScrollTransform.opacity" [style.--bg-opacity]="window1BgOpacity" (mousedown)="bringToFront(1, $event)" (touchstart)="bringToFront(1, $event)">
       <!-- Window Header Bar -->
-      <div class="window-header" (mousedown)="onHeaderMouseDown($event)" [class.dragging]="isDragging">
+      <div class="window-header" (mousedown)="onHeaderMouseDown($event)" (touchstart)="onHeaderTouchStart(0, $event)" [class.dragging]="isDragging">
         <div class="window-controls">
           <span class="window-dot"></span>
           <span class="window-dot"></span>
@@ -225,9 +225,9 @@
         </div>
 
         <!-- Second Cursor IDE Window Container (50% size) -->
-        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow2 [style.z-index]="windowZIndex2" [style.transform]="window2Transform" [style.opacity]="window2ScrollTransform.opacity" [style.--bg-opacity]="window2BgOpacity" (mousedown)="bringToFront(2, $event)">
+        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow2 [style.z-index]="windowZIndex2" [style.transform]="window2Transform" [style.opacity]="window2ScrollTransform.opacity" [style.--bg-opacity]="window2BgOpacity" (mousedown)="bringToFront(2, $event)" (touchstart)="bringToFront(2, $event)">
       <!-- Window Header Bar -->
-      <div class="window-header" (mousedown)="onHeaderMouseDown2($event)" [class.dragging]="isDragging2">
+      <div class="window-header" (mousedown)="onHeaderMouseDown2($event)" (touchstart)="onHeaderTouchStart(1, $event)" [class.dragging]="isDragging2">
         <div class="window-controls">
           <span class="window-dot"></span>
           <span class="window-dot"></span>
@@ -284,9 +284,9 @@
         </div>
 
         <!-- Third Cursor IDE Window Container (Life Moments) -->
-        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow3 [style.z-index]="windowZIndex3" [style.transform]="window3Transform" [style.opacity]="window3ScrollTransform.opacity" [style.--bg-opacity]="window3BgOpacity" (mousedown)="bringToFront(3, $event)">
+        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow3 [style.z-index]="windowZIndex3" [style.transform]="window3Transform" [style.opacity]="window3ScrollTransform.opacity" [style.--bg-opacity]="window3BgOpacity" (mousedown)="bringToFront(3, $event)" (touchstart)="bringToFront(3, $event)">
       <!-- Window Header Bar -->
-      <div class="window-header" (mousedown)="onHeaderMouseDown3($event)" [class.dragging]="isDragging3">
+      <div class="window-header" (mousedown)="onHeaderMouseDown3($event)" (touchstart)="onHeaderTouchStart(2, $event)" [class.dragging]="isDragging3">
         <div class="window-controls">
           <span class="window-dot"></span>
           <span class="window-dot"></span>
