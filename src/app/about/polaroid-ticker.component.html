@@ -1,0 +1,26 @@
+<div class="polaroid-ticker-wrapper">
+  <div class="polaroid-ticker-container" #tickerContainer>
+    <!-- First set of polaroids -->
+    <div class="polaroid-item" *ngFor="let card of cards">
+      <div class="polaroid-frame">
+        <div class="polaroid-image">
+          <img [src]="card.frontImage" [alt]="card.frontTitle" />
+        </div>
+        <div class="polaroid-label">
+          <span class="polaroid-title">{{ card.frontTitle }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- Duplicate set for seamless loop -->
+    <div class="polaroid-item" *ngFor="let card of cards">
+      <div class="polaroid-frame">
+        <div class="polaroid-image">
+          <img [src]="card.frontImage" [alt]="card.frontTitle" />
+        </div>
+        <div class="polaroid-label">
+          <span class="polaroid-title">{{ card.frontTitle }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

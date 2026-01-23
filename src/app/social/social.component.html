@@ -1,0 +1,9 @@
+<div class="text-center mt-5 mb-5">
+  <ul *ngFor="let socialList of socialData" class="mb-3 list-inline">
+    <li *ngFor="let social of socialList" class="list-inline-item">
+      <span class="social-buttons {{social['name'].toLowerCase()}} text-{{color}}">
+        <i class="{{social['class']}} fa-1x"></i>
+      </span>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,461 @@
+<section class="section about-section" id="about" #aboutSection>
+  <div class="about-background"></div>
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left Side Text -->
+      <div class="col-lg-4 about-side-text" #aboutSideText [style.transform]="'translateY(' + scrollTransform.y + 'px)'" [style.opacity]="scrollTransform.opacity">
+        <h1 class="about-main-heading">About Me</h1>
+        <p class="about-description">
+          Learn about my background, skills, and experience in analytics.
+        </p>
+        <a href="https://www.linkedin.com/in/cjmayes/" target="_blank" rel="noopener noreferrer" class="about-cta">
+          <span class="about-cta-text">Add Me on Linkedin</span>
+          <div class="about-cta-icon">/in/cjmayes/</div>
+        </a>
+      </div>
+
+      <!-- Right Side Container -->
+      <div class="col-lg-8">
+        <!-- Cursor IDE Window Container -->
+        <div class="cursor-window scroll-animated" #cursorWindow [style.z-index]="windowZIndex" [style.transform]="window1Transform" [style.opacity]="windowScrollTransform.opacity" [style.--bg-opacity]="window1BgOpacity" (mousedown)="bringToFront(1, $event)">
+      <!-- Window Header Bar -->
+      <div class="window-header" (mousedown)="onHeaderMouseDown($event)" [class.dragging]="isDragging">
+        <div class="window-controls">
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+        </div>
+        <div class="window-title">About</div>
+        <div class="window-actions"></div>
+      </div>
+
+      <!-- IDE Content Area -->
+      <div class="ide-content">
+        <!-- Sidebar Navigation -->
+        <aside 
+          class="ide-sidebar"
+          [class.sidebar-open]="sidebarOpen"
+          (mouseenter)="onSidebarMouseEnter()"
+          (mouseleave)="onSidebarMouseLeave()">
+          <div class="sidebar-logo-container">
+            <a href="#" class="sidebar-logo">
+              <img src="assets/images/CJ-Design-Dark.png" alt="CJ Mayes" class="sidebar-logo-icon-img" />
+              <span class="sidebar-logo-text">CJ Mayes</span>
+            </a>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-section-label" *ngIf="sidebarOpen">Sections</div>
+            <div class="sidebar-items">
+              <button 
+                *ngFor="let tab of filteredNavTabs" 
+                type="button"
+                class="sidebar-item"
+                [class.active]="activeTab === tab['id']"
+                (click)="changeActiveTab(tab['id'])"
+                [attr.aria-selected]="activeTab === tab['id']"
+                [attr.aria-controls]="tab['id'] + '-panel'"
+                [id]="tab['id'] + '-tab'">
+                <i [class]="getSectionIcon(tab['id'])" class="sidebar-item-icon"></i>
+                <div class="sidebar-item-content">
+                  <div class="sidebar-item-title">{{ tab['name'] }}</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <div class="ide-editor">
+          <!-- Content Panels -->
+          <div class="editor-content">
+            <!-- Portfolio Panel -->
+            <div 
+              class="content-panel"
+              [class.active]="activeTab === 'portfolio'"
+              id="portfolio-panel"
+              role="tabpanel">
+              <div class="panel-content portfolio-gallery-wrapper">
+                <div class="portfolio-gallery-container">
+                  <div #gallery id="gallery" class="bento-grid focus-cards-container">
+                    <div 
+                      *ngFor="let project of getFirstThreePortfolioItems(); let i = index"
+                      class="bento-grid-item focus-card"
+                      [class.clickable]="project['link']"
+                      (click)="project['link'] && openPortfolioLink(project['link'])">
+                      <div class="bento-grid-header">
+                        <img 
+                          [src]="getPortfolioImagePath(project['project'])" 
+                          [alt]="replaceDashes(project['project'])" 
+                          class="bento-grid-image">
+                      </div>
+                      <div class="bento-grid-content">
+                        <div class="bento-grid-icon">
+                          <i class="fas fa-folder-open"></i>
+                        </div>
+                        <h3 class="bento-grid-title">{{ replaceDashes(project['project']) }}</h3>
+                        <p class="bento-grid-description">{{ project['description'] }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Experience Panel -->
+            <div 
+              class="content-panel"
+              [class.active]="activeTab === 'experience'"
+              id="experience-panel"
+              role="tabpanel">
+              <div class="panel-content">
+                <app-accordion [defaultValue]="[]" className="max-w-lg">
+                  <app-accordion-item *ngFor="let exp of aboutData['experience']; let i = index" [value]="'item-' + i">
+                    <app-accordion-trigger>
+                      <div class="experience-trigger-content">
+                        <div class="experience-company-row">
+                          <span class="experience-status" [class.active]="exp['company'] === 'JLL' || exp['company'] === 'Keptd'" [class.inactive]="exp['company'] !== 'JLL' && exp['company'] !== 'Keptd'">
+                            {{ (exp['company'] === 'JLL' || exp['company'] === 'Keptd') ? 'Active' : 'Inactive' }}
+                          </span>
+                          <span class="experience-company">{{ exp['company'] }}</span>
+                        </div>
+                        <div class="experience-role-duration">
+                          <span class="experience-role">{{ exp['role'] }}</span>
+                          <span class="experience-duration">{{ exp['duration'] }}</span>
+                        </div>
+                      </div>
+                    </app-accordion-trigger>
+                    <app-accordion-content>
+                      <div *ngFor="let position of exp['positions']" class="experience-position">
+                        <h4 *ngIf="position['title']" class="position-title">{{ position['title'] }}</h4>
+                        <ul class="position-bullets">
+                          <li *ngFor="let bullet of position['bullets']" [innerHTML]="bullet"></li>
+                        </ul>
+                      </div>
+                    </app-accordion-content>
+                  </app-accordion-item>
+                </app-accordion>
+              </div>
+            </div>
+            
+            <!-- Skills Panel -->
+            <div 
+              class="content-panel"
+              [class.active]="activeTab === 'skill'"
+              id="skill-panel"
+              role="tabpanel">
+              <div class="panel-content skills-panel-layout">
+                <!-- Technical Skills Section -->
+                <div class="technical-skills-section" *ngIf="aboutData['skills']">
+                  <div *ngFor="let category of aboutData['skills']">
+                    <!-- Data Engineering with split layout -->
+                    <div *ngIf="category['category'] === 'Data Engineering' && category['leftItems'] && category['rightItems']" class="skill-category">
+                      <h4 class="skill-category-title">{{ category['category'] }}</h4>
+                      <div class="skill-split-layout">
+                        <div class="skill-column">
+                          <div class="skill-group">
+                            <div class="skill-item" *ngFor="let skillItem of category['leftItems']">
+                              <div class="skill-header">
+                                <span class="skill-name">{{ skillItem['skill'] }}</span>
+                                <span class="skill-percentage">{{ skillItem['progress'] }}%</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" [style.width.%]="skillItem['progress']"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="skill-column">
+                          <div class="skill-group">
+                            <div class="skill-item" *ngFor="let skillItem of category['rightItems']">
+                              <div class="skill-header">
+                                <span class="skill-name">{{ skillItem['skill'] }}</span>
+                                <span class="skill-percentage">{{ skillItem['progress'] }}%</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" [style.width.%]="skillItem['progress']"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Project Management and Data Visualisation side by side with separate headers -->
+                    <div *ngIf="category['category'] === 'Project Management' && category['pairedCategory']" class="skill-category project-management-section">
+                      <div class="skill-split-layout">
+                        <div class="skill-column">
+                          <h4 class="skill-category-title">{{ category['category'] }}</h4>
+                          <div class="skill-group">
+                            <div class="skill-item" *ngFor="let skillItem of category['leftItems']">
+                              <div class="skill-header">
+                                <span class="skill-name">{{ skillItem['skill'] }}</span>
+                                <span class="skill-percentage">{{ skillItem['progress'] }}%</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" [style.width.%]="skillItem['progress']"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="skill-column">
+                          <ng-container *ngFor="let pairedCat of aboutData['skills']">
+                            <h4 *ngIf="pairedCat['category'] === category['pairedCategory']" class="skill-category-title">{{ pairedCat['category'] }}</h4>
+                            <div *ngIf="pairedCat['category'] === category['pairedCategory']" class="skill-group">
+                              <div class="skill-item" *ngFor="let skillItem of pairedCat['rightItems']">
+                                <div class="skill-header">
+                                  <span class="skill-name">{{ skillItem['skill'] }}</span>
+                                  <span class="skill-percentage">{{ skillItem['progress'] }}%</span>
+                                </div>
+                                <div class="progress">
+                                  <div class="progress-bar" [style.width.%]="skillItem['progress']"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <!-- Second Cursor IDE Window Container (50% size) -->
+        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow2 [style.z-index]="windowZIndex2" [style.transform]="window2Transform" [style.opacity]="window2ScrollTransform.opacity" [style.--bg-opacity]="window2BgOpacity" (mousedown)="bringToFront(2, $event)">
+      <!-- Window Header Bar -->
+      <div class="window-header" (mousedown)="onHeaderMouseDown2($event)" [class.dragging]="isDragging2">
+        <div class="window-controls">
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+        </div>
+        <div class="window-title">Website-Tutorials</div>
+        <div class="window-actions"></div>
+      </div>
+
+      <!-- IDE Content Area -->
+      <div class="ide-content">
+        <!-- Sidebar Navigation -->
+        <aside class="ide-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-section-label">Sections</div>
+            <div class="sidebar-items">
+              <button 
+                type="button"
+                class="sidebar-item active"
+                (click)="changeActiveTab2('story')"
+                [attr.aria-selected]="true"
+                [attr.aria-controls]="'story-panel-2'"
+                id="story-tab-2">
+                <div class="sidebar-item-content">
+                  <div class="sidebar-item-title">{{ aboutData['NavTabs'][0]['name'] }}</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <div class="ide-editor">
+          <!-- Content Panels -->
+          <div class="editor-content">
+            <!-- File Tree Panel -->
+            <div 
+              class="content-panel active"
+              id="story-panel-2"
+              role="tabpanel">
+              <div class="panel-content file-tree-panel">
+                <!-- File Tree Root -->
+                <div class="hs-accordion-treeview-root" role="tree" aria-orientation="vertical">
+                  <!-- File Tree Items -->
+                  <ng-container *ngFor="let item of fileTree">
+                    <ng-container *ngTemplateOutlet="treeItemTemplate; context: { item: item, level: 0 }"></ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <!-- Third Cursor IDE Window Container (Life Moments) -->
+        <div class="cursor-window cursor-window-small scroll-animated" #cursorWindow3 [style.z-index]="windowZIndex3" [style.transform]="window3Transform" [style.opacity]="window3ScrollTransform.opacity" [style.--bg-opacity]="window3BgOpacity" (mousedown)="bringToFront(3, $event)">
+      <!-- Window Header Bar -->
+      <div class="window-header" (mousedown)="onHeaderMouseDown3($event)" [class.dragging]="isDragging3">
+        <div class="window-controls">
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+        </div>
+        <div class="window-title">Life Moments</div>
+        <div class="window-actions"></div>
+      </div>
+
+      <!-- IDE Content Area -->
+      <div class="ide-content">
+        <!-- Sidebar Navigation -->
+        <aside class="ide-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-section-label">Sections</div>
+            <div class="sidebar-items">
+              <button 
+                type="button"
+                class="sidebar-item active"
+                [attr.aria-selected]="true"
+                [attr.aria-controls]="'life-moments-panel'"
+                id="life-moments-tab">
+                <div class="sidebar-item-content">
+                  <div class="sidebar-item-title">Life Moments</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <div class="ide-editor">
+          <!-- Content Panels -->
+          <div class="editor-content">
+            <!-- Life Moments Panel -->
+            <div 
+              class="content-panel active"
+              id="life-moments-panel"
+              role="tabpanel">
+              <div class="panel-content life-moments-content">
+                <app-polaroid-ticker [cards]="lifeMomentsCards"></app-polaroid-ticker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- File Tree Template (Recursive) -->
+    <ng-template #treeItemTemplate let-item="item" let-level="level">
+      <div class="hs-accordion-group" [style.padding-left.px]="level * 28">
+        <!-- Folder or File Item -->
+        <div 
+          class="hs-accordion" 
+          [class.active]="item.type === 'folder' && isTreeItemExpanded(item.id)"
+          [attr.role]="item.type === 'folder' ? 'treeitem' : 'treeitem'"
+          [attr.aria-expanded]="item.type === 'folder' ? isTreeItemExpanded(item.id) : null"
+          [id]="'tree-item-' + item.id">
+          
+          <!-- Folder/File Heading -->
+          <div class="hs-accordion-heading py-0.5 flex items-center gap-x-0.5 w-full">
+            <!-- Toggle Button (for folders only) -->
+            <button 
+              *ngIf="item.type === 'folder'"
+              class="hs-accordion-toggle size-6 flex justify-center items-center hover:bg-gray-100 rounded-md focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" 
+              [attr.aria-expanded]="isTreeItemExpanded(item.id)"
+              [attr.aria-controls]="'tree-collapse-' + item.id"
+              (click)="toggleTreeItem(item.id)">
+              <svg class="size-4 text-gray-800 dark:text-neutral-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"></path>
+                <path [class.hidden]="isTreeItemExpanded(item.id)" class="block" d="M12 5v14"></path>
+              </svg>
+            </button>
+            <span *ngIf="item.type === 'file'" class="size-6"></span>
+
+            <!-- Item Content -->
+            <a 
+              [href]="item.link || '#'" 
+              class="grow px-1.5 rounded-md cursor-pointer hs-accordion-selectable"
+              [attr.target]="item.link && item.link !== '#' ? '_blank' : null"
+              [attr.rel]="item.link && item.link !== '#' ? 'noopener noreferrer' : null"
+              (click)="item.link && item.link !== '#' ? null : $event.preventDefault()">
+              <div class="flex items-center gap-x-3">
+                <!-- Folder Icon -->
+                <svg 
+                  *ngIf="item.type === 'folder'"
+                  class="shrink-0 size-4 text-gray-500 dark:text-neutral-500" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  stroke-width="1.5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round">
+                  <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
+                </svg>
+                <!-- File Icon -->
+                <svg 
+                  *ngIf="item.type === 'file'"
+                  class="shrink-0 size-4 text-gray-500 dark:text-neutral-500" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="24" 
+                  height="24" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  stroke-width="1.5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                  <circle *ngIf="item.name.endsWith('.jpg') || item.name.endsWith('.png')" cx="10" cy="12" r="2"></circle>
+                  <path *ngIf="item.name.endsWith('.jpg') || item.name.endsWith('.png')" d="m20 17-1.296-1.296a2.41 2.41 0 0 0-3.408 0L9 22"></path>
+                </svg>
+                <div class="grow">
+                  <span class="text-sm text-gray-800 dark:text-neutral-200">
+                    {{ item.name }}
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Folder Children (Collapse) -->
+          <div 
+            *ngIf="item.type === 'folder' && item.children"
+            [id]="'tree-collapse-' + item.id"
+            class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300"
+            [class.hidden]="!isTreeItemExpanded(item.id)"
+            [attr.role]="'group'"
+            [attr.aria-labelledby]="'tree-item-' + item.id">
+            <div class="ms-3 ps-3 relative before:absolute before:top-0 before:start-0 before:w-0.5 before:-ms-px before:h-full before:bg-gray-100 dark:before:bg-neutral-700">
+              <!-- Recursive children -->
+              <ng-container *ngFor="let child of item.children">
+                <ng-container *ngTemplateOutlet="treeItemTemplate; context: { item: child, level: level + 1 }"></ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    
+    <!-- Scrolling Marquee -->
+    <div class="marquee-container">
+      <p class="marquee-title">Recognised by organisations around the world.</p>
+      <div class="marquee-wrapper">
+        <div class="marquee-content">
+          <div class="marquee-item">#SportsVizSunday<br>24-26</div>
+          <div class="marquee-item">DataIQ100<br>'24</div>
+          <div class="marquee-item">DataIQ100<br>'23</div>
+          <div class="marquee-item">Tableau Ambassador<br>21-25</div>
+          <div class="marquee-item">Tableau Visionary<br>22-25</div>
+          <div class="marquee-item">IronViz Final<br>'24</div>
+          <div class="marquee-item">Information is Beautiful Shortlist<br>'24</div>
+          <!-- Duplicate for seamless loop -->
+          <div class="marquee-item">#SportsVizSunday<br>24-26</div>
+          <div class="marquee-item">DataIQ100<br>'24</div>
+          <div class="marquee-item">DataIQ100<br>'23</div>
+          <div class="marquee-item">Tableau Ambassador<br>21-25</div>
+          <div class="marquee-item">Tableau Visionary<br>22-25</div>
+          <div class="marquee-item">IronViz Final<br>'24</div>
+          <div class="marquee-item">Information is Beautiful Shortlist<br>'24</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
