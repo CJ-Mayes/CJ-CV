@@ -125,7 +125,8 @@
 					"builder": "angular-cli-ghpages:deploy",
 					"options": {
 						"branch": "gh-pages",
-						"directory": "build"
+						"directory": "build",
+						"baseHref": "/CJ-CV/"
 					}
 				}
 			}
