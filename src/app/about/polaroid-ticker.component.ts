@@ -5,6 +5,7 @@ const TICKER_CONSTANTS = {
   INITIALIZATION_DELAY: 100,
   BASE_SCROLL_SPEED: 1,
   SCROLL_SPEED_MULTIPLIER: 0.5,
+  SCROLL_SPEED_MULTIPLIER_MOBILE: 0.25, // Slower speed on mobile
   SCROLL_PROGRESS_MULTIPLIER: 2,
   MAX_SCROLL_SPEED: 3,
   GAP_PIXELS: 32 // 2rem gap
@@ -23,8 +24,19 @@ export class PolaroidTickerComponent implements AfterViewInit, OnDestroy {
   scrollSpeed = TICKER_CONSTANTS.BASE_SCROLL_SPEED;
   private animationFrameId: number | null = null;
   private currentPosition = 0;
+  private isMobile = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {
+    this.checkMobile();
+  }
+
+  private checkMobile(): void {
+    this.isMobile = window.innerWidth <= 768;
+    // Listen for resize events to update mobile status
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 768;
+    });
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -50,7 +62,10 @@ export class PolaroidTickerComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      this.currentPosition -= this.scrollSpeed * TICKER_CONSTANTS.SCROLL_SPEED_MULTIPLIER;
+      const speedMultiplier = this.isMobile 
+        ? TICKER_CONSTANTS.SCROLL_SPEED_MULTIPLIER_MOBILE 
+        : TICKER_CONSTANTS.SCROLL_SPEED_MULTIPLIER;
+      this.currentPosition -= this.scrollSpeed * speedMultiplier;
       
       const firstItem = container.querySelector('.polaroid-item') as HTMLElement;
       if (firstItem) {

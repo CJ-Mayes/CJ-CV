@@ -967,8 +967,59 @@
   line-height: 1.6;
 }
 
+/* Mobile message - hidden on desktop */
+.about-mobile-message {
+  display: none;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  /* Hide the right side content container on mobile */
+  .about-section .col-lg-8 {
+    display: none !important;
+  }
+
+  /* Hide the description text on mobile */
+  .about-description {
+    display: none !important;
+  }
+
+  /* Show the mobile message */
+  .about-mobile-message {
+    display: block !important;
+  }
+
+  /* Center the left side text on mobile */
+  .about-side-text {
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Make the heading centered */
+  .about-main-heading {
+    text-align: center;
+  }
+
+  /* Show Life Moments carousel on mobile, below the message */
+  .life-moments-mobile {
+    display: block !important;
+    width: 100% !important;
+    padding: 2rem 0 !important;
+    margin-top: 2rem !important;
+    overflow: hidden;
+  }
+
+  /* Ensure polaroid ticker maintains same speed on mobile */
+  .life-moments-mobile app-polaroid-ticker {
+    display: block;
+    width: 100%;
+  }
   .cursor-window {
     margin: 1rem;
   }
@@ -1851,6 +1902,14 @@
   .hs-accordion-content .ms-3::before {
     background-color: rgba(255, 255, 255, 0.1);
   }
+}
+
+/* Life Moments Mobile - Outside Container */
+.life-moments-mobile {
+  display: none;
+  width: 100%;
+  padding: 2rem 0;
+  background-color: #f0f5f4;
 }
 
 /* Life Moments Styles */
