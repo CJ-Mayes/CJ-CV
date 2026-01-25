@@ -26,6 +26,16 @@ export class NavbarComponent implements OnInit {
 	public sticky : boolean = false;
 	public animation : string = "";
 
+	// Icon mapping for navigation links
+	private navIcons: { [key: string]: string } = {
+		'Home': 'fas fa-home',
+		'About': 'fas fa-user',
+		'Portfolio': 'fas fa-folder-open',
+		'Experience': 'fas fa-briefcase',
+		'Skills': 'fas fa-code',
+		'Skill': 'fas fa-code'
+	};
+
 	constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
 	ngOnInit(): void {
@@ -160,5 +170,10 @@ export class NavbarComponent implements OnInit {
 	public addProfile() {
 		this.navbarProfileVisibility = true;
 		this.animation = 'slideInLeft 1s forwards';
+	}
+
+	// Get icon for navigation link
+	public getNavIcon(navLink: string): string {
+		return this.navIcons[navLink] || 'fas fa-circle';
 	}
 }

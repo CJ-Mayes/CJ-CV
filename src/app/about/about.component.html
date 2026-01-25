@@ -13,10 +13,6 @@
           <div class="about-cta-icon">/in/cjmayes/</div>
         </a>
         <p class="about-mobile-message">View the site on a computer to see some cool features!</p>
-        <!-- Life Moments Carousel for Mobile -->
-        <div class="life-moments-mobile">
-          <app-polaroid-ticker [cards]="lifeMomentsCards"></app-polaroid-ticker>
-        </div>
       </div>
 
       <!-- Right Side Container -->
@@ -340,6 +336,62 @@
       </div>
         </div>
 
+      </div>
+
+      <!-- Mobile Experience Headers Section -->
+      <div class="col-12 experience-mobile">
+        <div class="experience-mobile-wrapper">
+          <div class="experience-mobile-container">
+            <div *ngFor="let exp of aboutData['experience']; let i = index" class="experience-item-mobile">
+              <div class="experience-trigger-content-mobile">
+                <div class="experience-company-row-mobile">
+                  <span class="experience-status-mobile" [class.active]="exp['company'] === 'JLL' || exp['company'] === 'Keptd'" [class.inactive]="exp['company'] !== 'JLL' && exp['company'] !== 'Keptd'">
+                    {{ (exp['company'] === 'JLL' || exp['company'] === 'Keptd') ? 'Active' : 'Inactive' }}
+                  </span>
+                  <span class="experience-company-mobile">{{ exp['company'] }}</span>
+                </div>
+                <div class="experience-role-duration-mobile">
+                  <span class="experience-role-mobile">{{ exp['role'] }}</span>
+                  <span class="experience-duration-mobile">{{ exp['duration'] }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Portfolio Section (outside container) -->
+      <div class="col-12 portfolio-mobile">
+        <div class="portfolio-mobile-wrapper">
+          <div class="portfolio-mobile-container">
+            <div class="bento-grid-mobile focus-cards-container">
+              <div 
+                *ngFor="let project of getFirstThreePortfolioItems(); let i = index"
+                class="bento-grid-item-mobile focus-card"
+                [class.clickable]="project['link']"
+                (click)="project['link'] && openPortfolioLink(project['link'])">
+                <div class="bento-grid-header-mobile">
+                  <img 
+                    [src]="getPortfolioImagePath(project['project'])" 
+                    [alt]="replaceDashes(project['project'])" 
+                    class="bento-grid-image-mobile">
+                </div>
+                <div class="bento-grid-content-mobile">
+                  <div class="bento-grid-icon-mobile">
+                    <i class="fas fa-folder-open"></i>
+                  </div>
+                  <h3 class="bento-grid-title-mobile">{{ replaceDashes(project['project']) }}</h3>
+                  <p class="bento-grid-description-mobile">{{ project['description'] }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Life Moments Carousel for Mobile -->
+      <div class="col-12 life-moments-mobile">
+        <app-polaroid-ticker [cards]="lifeMomentsCards"></app-polaroid-ticker>
       </div>
     </div>
 
