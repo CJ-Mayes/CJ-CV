@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1769620267194,
+  "timestamp": 1769620339447,
   "index": "/CJ-CV/index.html",
   "assetGroups": [
     {
@@ -17,7 +17,7 @@
         "/CJ-CV/main.ea74acdfdacc0e89.js",
         "/CJ-CV/polyfills.f5ea66088cd26545.js",
         "/CJ-CV/runtime.071dab0040fc911f.js",
-        "/CJ-CV/scripts.d3d3714fb278c1bd.js",
+        "/CJ-CV/scripts.9855768d389e0bd4.js",
         "/CJ-CV/styles.850b8e75132c5077.css"
       ],
       "patterns": []
@@ -90,7 +90,7 @@
     "/CJ-CV/886.a0abab692b94e721.js": "d84d303bac10cfdb5cacf80420a785178d087662",
     "/CJ-CV/assets/css/animate.min.css": "4ce4e9a3c083a51cc474b62f755108b9c81e5881",
     "/CJ-CV/assets/css/font-awesome.min.css": "db3c436a1c87b1fd43a10e820ad628f93df90bce",
-    "/CJ-CV/assets/data.min.js": "b1190d7472fd5f775b97e23578e1111cdb67d899",
+    "/CJ-CV/assets/data.min.js": "dc13b8568a9ad457ea5055d599f2342d1825330d",
     "/CJ-CV/assets/fonts/fa-brands-400.eot": "eebb655d41a5c661b1676fe4355a67137dc04658",
     "/CJ-CV/assets/fonts/fa-brands-400.svg": "616d5a2ca7349d7362f6b73cfb272a0a21ca48c3",
     "/CJ-CV/assets/fonts/fa-brands-400.ttf": "a03e798f6194f1972d9931c987a87996ac27bce9",
@@ -138,11 +138,11 @@
     "/CJ-CV/fa-solid-900.7cd3ea3a010ee096.svg": "c8e3b7e2aa628e46993e63bf9c806e7c27800149",
     "/CJ-CV/fa-solid-900.d80d93face7fbbc1.eot": "26f695865311891d8fa1f6321605306c74b5d44c",
     "/CJ-CV/favicon.svg": "ad8176bf9d22cf0754d501e6320d532ed19c32c5",
-    "/CJ-CV/index.html": "cf73da7e6646094d86d9d728524fad8b3013dc40",
+    "/CJ-CV/index.html": "dcda644c25878da5de9875b74e41e1b56f305394",
     "/CJ-CV/main.ea74acdfdacc0e89.js": "328c27ae650bc33ddefe0ec5f6ecd18ffc94a8f0",
     "/CJ-CV/polyfills.f5ea66088cd26545.js": "635c8a169c515d7083ef2812cb31c4c6bd645f01",
     "/CJ-CV/runtime.071dab0040fc911f.js": "01a94cfb58fa37fdbeb689f89683350a2ee2b218",
-    "/CJ-CV/scripts.d3d3714fb278c1bd.js": "ab17665f84999aef7eb4abdc3244abdc170acdcc",
+    "/CJ-CV/scripts.9855768d389e0bd4.js": "2bfeebd4d2633f409295240c03f0bb9516e828a5",
     "/CJ-CV/styles.850b8e75132c5077.css": "28c629db2ced51b592fdfa7c7d3d80ecd062da9a"
   },
   "navigationUrls": [
