@@ -797,6 +797,21 @@ export const FILE_TREE_DATA: FileTreeItem[] = [
     ]
   },
   {
+    id: '2026-blogs',
+    name: '2026',
+    type: 'folder',
+    expanded: false,
+    link: 'https://cj-mayes.github.io/Blog-Archive/',
+    children: [
+      {
+        id: '2026-comment',
+        name: 'In 2026 I decided to stop writing blogs!',
+        type: 'file',
+        link: 'https://cj-mayes.github.io/Blog-Archive/'
+      }
+    ]
+  },
+  {
     id: 'blog-archive-main',
     name: 'View All Posts',
     type: 'file',
